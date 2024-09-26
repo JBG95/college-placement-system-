@@ -15,7 +15,7 @@ const Hero = () => {
       </p>
       <div className="mt-6 gap-6 flex">
         <Link
-          to="/"
+          to="/login"
           className="p-3 rounded-full border-2 border-slate-900 hover:shadow-md hover:shadow-slate-900 transition-all duration-300 text-slate-900 text-lg"
         >
           Get Started

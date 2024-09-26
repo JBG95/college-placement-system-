@@ -3,15 +3,13 @@ import { UserCheck, Briefcase, Headset, Search } from "lucide-react";
 const WhyUs = () => {
   return (
     <section className="w-full py-6 px-8 flex flex-col min-h-screen justify-center items-center">
-      {/* Main Heading */}
       <p className="text-[65px] font-extrabold text-slate-900 text-center">
         Finding a job has never
         <br />
         been easier
-        <span className="text-[65px] font-extrabold text-orange-700">.</span>
+        <span className="text-[65px] font-extrabold text-orange-600">.</span>
       </p>
 
-      {/* Why Us Features */}
       <div className="flex w-full max-w-6xl gap-10 justify-center mt-8">
         <div className="flex flex-col items-center text-center">
           <UserCheck className="text-orange-600 h-16 w-16 mb-4" />

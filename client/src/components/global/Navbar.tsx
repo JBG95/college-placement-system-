@@ -4,7 +4,7 @@ const Navbar = () => {
   const links = [
     { name: "Jobs", path: "/jobs" },
     { name: "Companies", path: "/companies" },
-    { name: "Get Started", path: "/" },
+    { name: "Get Started", path: "/login" },
   ];
 
   return (
