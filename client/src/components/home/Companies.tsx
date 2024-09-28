@@ -3,23 +3,25 @@ import mtn from "../../assets/mtn-removebg-preview.png";
 import zamtel from "../../assets/zamtel-removebg-preview.png";
 import zesco from "../../assets/zesco-removebg-preview.png";
 import dice from "../../assets/Mask_group-removebg-preview.png";
+import Marquee from "react-fast-marquee";
 
 const companyLogos = [zesco, airtel, mtn, dice, zamtel];
 
 const Companies = () => {
   return (
     <div className="overflow-hidden py-8">
-      <div className="flex justify-center gap-6 w-full">
-        {companyLogos.map((logo, index) => (
-          <div key={index} className="mx-8">
+      <Marquee className="w-full">
+        <div className="flex justify-around items-center w-full space-x-20">
+          {companyLogos.map((logo, index) => (
             <img
+              key={index}
               src={logo}
               alt={`Company Logo ${index + 1}`}
               className="h-20 w-20"
             />
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Marquee>
     </div>
   );
 };

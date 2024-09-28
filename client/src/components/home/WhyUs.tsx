@@ -2,7 +2,7 @@ import { UserCheck, Briefcase, Headset, Search } from "lucide-react";
 
 const WhyUs = () => {
   return (
-    <section className="w-full py-6 px-8 flex flex-col min-h-screen justify-center items-center">
+    <section className="w-full py-6 px-8 flex flex-col min-h-screen justify-center items-center bg-slate-100">
       <p className="text-[65px] font-extrabold text-slate-900 text-center">
         Finding a job has never
         <br />
