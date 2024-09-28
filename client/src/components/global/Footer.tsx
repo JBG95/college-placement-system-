@@ -21,9 +21,12 @@ const Footer = () => {
         ))}
       </div>
 
-      <div className="text-slate-600 text-sm">
+      <a
+        href="https://dice-labs.vercel.app/"
+        className="text-slate-600 text-sm"
+      >
         Developed by DiCE Labs Innovations Ltd
-      </div>
+      </a>
     </footer>
   );
 };

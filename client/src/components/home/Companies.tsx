@@ -3,9 +3,21 @@ import mtn from "../../assets/mtn-removebg-preview.png";
 import zamtel from "../../assets/zamtel-removebg-preview.png";
 import zesco from "../../assets/zesco-removebg-preview.png";
 import dice from "../../assets/Mask_group-removebg-preview.png";
+import fqm from "../../assets/fqm-removebg-preview.png";
+import shoprite from "../../assets/shoprite.png";
+import stanchart from "../../assets/stanchart-removebg-preview.png";
 import Marquee from "react-fast-marquee";
 
-const companyLogos = [zesco, airtel, mtn, dice, zamtel];
+const companyLogos = [
+  zesco,
+  airtel,
+  mtn,
+  dice,
+  fqm,
+  stanchart,
+  shoprite,
+  zamtel,
+];
 
 const Companies = () => {
   return (
