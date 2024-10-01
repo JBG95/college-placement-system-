@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Admin
+  User
+}
+
+enum ApplicationStatus {
+  Pending
+  Approved
+  Declined
+}
+
+enum JobType {
+  Internship
+  Parttime
+  Permanent
+}
+
+enum WorkType {
+  Remote
+  Onsite
+}
+
+model User {
+  id             String        @id @default(uuid())
+  username       String
+  fullname       String
+  email          String        @unique
+  phone          String?
+  password       String
+  location       String?
+  avatarUrl      String?
+  role           UserRole      @default(User)
+  emailVerified  Boolean       @default(false)
+  phoneVerified  Boolean       @default(false)
+  privateProfile Boolean       @default(false)
+  expoPushToken  String?
+  refreshToken   String?
+  school         School[]
+  company        Company[]
+  jobs           Job[]
+  Application    Application[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model School {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  program   String
+  year      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String?
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model Company {
+  id          String   @id @default(uuid())
+  name        String
+  address     String
+  description String
+  email       String
+  phone       String
+  services    String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String?
+  User        User?    @relation(fields: [userId], references: [id])
+}
+
+model Job {
+  id                  String        @id @default(uuid())
+  title               String
+  description         String
+  requirements        String[]
+  salaryRange         String?
+  type                JobType
+  work                WorkType
+  location            String
+  applicationDeadline DateTime
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  userId              String?
+  user                User?         @relation(fields: [userId], references: [id])
+  Application         Application[]
+}
+
+model Application {
+  id          String            @id @default(uuid())
+  fullname    String
+  email       String
+  phone       String
+  status      ApplicationStatus @default(Pending)
+  coverLetter String?
+  resumeUrl   String
+  appliedAt   DateTime          @default(now())
+  userId      String
+  jobId       String
+  User        User              @relation(fields: [userId], references: [id])
+  Job         Job               @relation(fields: [jobId], references: [id])
+}
