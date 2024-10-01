@@ -71,6 +71,7 @@ model Company {
   description String
   email       String
   phone       String
+  avatar      String?
   services    String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

@@ -4,10 +4,21 @@ import { prisma } from "../config/prisma";
 
 export class CompanyCollection {
   // 1. Create a new Company
-  async createCompany(req: Request, res: Response) {
+  async createCompany(req: Request, res: Response): Promise<void> {
     try {
       const { name, address, description, email, phone, services, userId } =
         req.body;
+
+      // Retrieve the uploaded avatar file path
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      const avatarUrl = files?.avatar?.[0]?.path || null;
+
+      // Check if avatar is uploaded
+      if (!avatarUrl) {
+        res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ message: "Avatar image is required" });
+      }
 
       // Create a new company record
       const newCompany = await prisma.company.create({
@@ -17,12 +28,13 @@ export class CompanyCollection {
           description,
           email,
           phone,
-          services,
+          avatar: avatarUrl, // Store the uploaded avatar file path
+          services: services ? JSON.parse(services) : [], // Parse the services array if provided
           userId,
         },
       });
 
-      res.status(httpStatus.CREATED).json(newCompany);
+      res.status(httpStatus.CREATED).json(newCompany); // Send the response without returning it
     } catch (error: any) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         error: "An error occurred while creating the company",
