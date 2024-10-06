@@ -11,29 +11,55 @@ const Register = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(""); // New phone state
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const setUserState = useSetRecoilState(userDetailsAtom);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (fullname.length < 5) {
+      return "Fullname must be at least 5 characters long.";
+    }
+    if (phone.length !== 10) {
+      return "Phone number must be exactly 10 digits.";
+    }
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long.";
+    }
+    return "";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(`${ENDPOINT}${REGISTER}`, {
         username,
-        fullname,
         email,
         password,
-        phone, // Include phone in the request
+        fullname,
+        phone,
+        role: "User",
       });
 
       console.log("User registered", response.data);
       setUserState(response.data);
-      navigate("/");
+
+      // Get the user ID from the response
+      const userId = response.data.id;
+
+      // Navigate to the role page with the user ID
+      navigate(`/user/avatar/${userId}`);
     } catch (err) {
       setError("Registration failed. Please try again.");
     } finally {
@@ -48,7 +74,6 @@ const Register = () => {
   return (
     <section className="py-6 md:px-48 p-4 min-h-screen w-full flex items-center">
       <div className="w-full md:gap-4 gap-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 shadow p-4 rounded-xl">
-        {/* Left side content */}
         <div className="flex flex-col justify-center md:p-4 p-0">
           <h2 className="text-3xl font-bold text-slate-800 mb-4">
             Join CPS
@@ -63,7 +88,6 @@ const Register = () => {
           </p>
         </div>
 
-        {/* Right side content - Registration Form */}
         <div className="flex flex-col w-full gap-4 md:p-4 p-0">
           <p className="text-slate-900 font-semibold text-3xl md:text-center text-start">
             Create an Account
@@ -75,7 +99,6 @@ const Register = () => {
           )}
 
           <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-            {/* Username Input */}
             <div className="w-full flex gap-2">
               <div className="w-full flex flex-col gap-2">
                 <label htmlFor="username" className="text-slate-800">
@@ -105,7 +128,6 @@ const Register = () => {
               </div>
             </div>
 
-            {/* Email Input */}
             <div className="w-full flex flex-col gap-2">
               <label htmlFor="email" className="text-slate-800">
                 Email
@@ -120,7 +142,6 @@ const Register = () => {
               />
             </div>
 
-            {/* Phone Input */}
             <div className="w-full flex flex-col gap-2">
               <label htmlFor="phone" className="text-slate-800">
                 Phone
@@ -135,7 +156,6 @@ const Register = () => {
               />
             </div>
 
-            {/* Password Input */}
             <div className="relative">
               <label htmlFor="password" className="text-slate-800">
                 Password

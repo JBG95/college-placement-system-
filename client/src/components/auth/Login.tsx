@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ENDPOINT, LOGIN } from "../../constants/config";
-import { userDetailsAtom } from "../../recoil/atoms";
+import { isAuthenticatedAtom, userDetailsAtom } from "../../recoil/atoms";
 import { useSetRecoilState } from "recoil";
 import Loader from "../global/Loader";
+import { Role } from "../../types/interface";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const setUserState = useSetRecoilState(userDetailsAtom);
+  const setAuthState = useSetRecoilState(isAuthenticatedAtom);
 
   const navigate = useNavigate();
 
@@ -31,7 +33,14 @@ const Login = () => {
 
       console.log("this is user", response.data);
       setUserState(response.data);
-      navigate("/");
+      setAuthState(true);
+      if (response.data.role === Role.Creator) {
+        navigate("/dashboard");
+      } else if (response.data.role === Role.Admin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/jobs");
+      }
     } catch (err) {
       setError("Login failed. Please check your credentials and try again.");
     } finally {

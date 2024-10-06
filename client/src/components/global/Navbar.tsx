@@ -1,13 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userDetailsAtom } from "../../recoil/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isAuthenticatedAtom, userDetailsAtom } from "../../recoil/atoms";
 import { User } from "lucide-react";
 
 const Navbar = () => {
   const user = useRecoilValue(userDetailsAtom);
+  const isAuthenticated = useRecoilValue(isAuthenticatedAtom);
+  const setAuthState = useSetRecoilState(isAuthenticatedAtom);
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    setAuthState(false);
     localStorage.removeItem("userDetailsAtom");
     navigate("/login");
   };
@@ -32,14 +35,15 @@ const Navbar = () => {
           </Link>
         ))}
 
-        {/* Conditional rendering based on user login state */}
-        {user ? (
+        {isAuthenticated ? (
           <div className="flex items-center gap-2">
             {/* User icon and username */}
-            <User className="h-6 w-6 text-slate-900" />
-            <span className="text-slate-900 font-semibold">
-              {user.username}
-            </span>
+            <Link to="/user/dashboard" className="flex items-center gap-2">
+              <User className="h-6 w-6 text-slate-900" />
+              <span className="text-slate-900 font-semibold">
+                {user?.username || "User"}
+              </span>
+            </Link>
 
             {/* Log Out button */}
             <button
