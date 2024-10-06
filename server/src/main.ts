@@ -4,6 +4,7 @@ import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import compression from "compression";
 import authRouter from "./auth/auth.router";
+import companyRouter from "./company/company.router";
 
 const app: Application = express();
 const port = process.env.PORT || 1738;
@@ -24,6 +25,7 @@ app.use(compression());
 
 //routes
 app.use("/api/auth", limiter, authRouter);
+app.use("/api/company", limiter, companyRouter);
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("CPS my guy");

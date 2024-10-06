@@ -14,9 +14,6 @@ export const createCompanySchema = z.object({
   phone: z
     .string()
     .min(10, { message: "Phone must be at least 10 characters" }),
-  services: z
-    .array(z.string())
-    .min(1, { message: "At least one service is required" }),
   userId: z.string(),
 });
 
@@ -26,9 +23,6 @@ export const updateCompanySchema = z.object({
   email: z.string().email("Invalid email format"),
   phone: z.string(),
   description: z.string(),
-  services: z
-    .array(z.string())
-    .min(1, { message: "At least one service is required" }),
 });
 
 export const companyResponseSchema = z.object({
@@ -38,7 +32,6 @@ export const companyResponseSchema = z.object({
   description: z.string(),
   email: z.string(),
   phone: z.string(),
-  services: z.array(z.string()),
   createdAt: z.date(),
   updatedAt: z.date(),
   userId: z.string().nullable(),

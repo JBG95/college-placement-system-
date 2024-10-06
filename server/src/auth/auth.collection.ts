@@ -58,7 +58,7 @@ export class UserCollection {
 
   async register(req: Request, res: Response) {
     try {
-      const { username, email, password, fullname, role, phone } = req.body;
+      const { username, email, password, fullname, phone } = req.body;
       const user = await prisma.user.findUnique({
         where: { email },
       });
@@ -69,17 +69,18 @@ export class UserCollection {
         return;
       }
 
-      await prisma.user.create({
+      const newuser = await prisma.user.create({
         data: {
           email,
           password: await hash(password, 10),
           username,
           fullname,
-          role,
           phone,
         },
       });
-      res.status(httpStatus.OK).json("User created successfully");
+      res
+        .status(httpStatus.OK)
+        .json({ message: "User created successfully", id: newuser.id });
     } catch (error: any) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         error: "An error occurred",
@@ -216,6 +217,57 @@ export class UserCollection {
     } catch (error: any) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         error: "An error occurred",
+        message: error.message,
+      });
+    }
+  }
+
+  async updateAvatar(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+
+      if (!req.file) {
+        res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ error: "No image file uploaded" });
+        return;
+      }
+
+      const avatarUrl = `/uploads/${req.file.filename}`;
+
+      const updatedUser = await prisma.user.update({
+        where: { id },
+        data: {
+          avatarUrl,
+        },
+      });
+
+      res.status(httpStatus.OK).json({ userId: updatedUser.id, avatarUrl });
+    } catch (error: any) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        error: "An error occurred while updating the user's avatar",
+        message: error.message,
+      });
+    }
+  }
+
+  async updateRole(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { role } = req.body;
+      console.log("this is it", req.body);
+
+      const updatedCompany = await prisma.user.update({
+        where: { id },
+        data: {
+          role,
+        },
+      });
+
+      res.status(httpStatus.OK).json(updatedCompany);
+    } catch (error: any) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        error: "An error occurred while updating the company",
         message: error.message,
       });
     }

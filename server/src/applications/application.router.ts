@@ -5,7 +5,7 @@ import {
   createApplicationSchema,
   updateApplicationSchema,
 } from "./application.dto";
-import { upload } from "../upload/file";
+import { upload } from "../uploadsfolder/file";
 
 const applicationRouter = Router();
 const applicationController = new ApplicationCollection();

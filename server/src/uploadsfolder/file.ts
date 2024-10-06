@@ -23,3 +23,28 @@ export const upload = multer({
     cb(null, true);
   },
 });
+
+export const uploadImage = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const allowedExtensions = [
+      ".jpeg",
+      ".jpg",
+      ".png",
+      ".webp",
+      ".gif",
+      ".bmp",
+    ];
+
+    if (!allowedExtensions.includes(ext)) {
+      return cb(
+        new Error(
+          "Only image files are allowed (jpeg, jpg, png, webp, gif, bmp)"
+        )
+      );
+    }
+    cb(null, true);
+  },
+});

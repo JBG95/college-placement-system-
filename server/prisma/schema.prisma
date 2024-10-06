@@ -9,6 +9,7 @@ datasource db {
 
 enum UserRole {
   Admin
+  Creator
   User
 }
 
@@ -38,7 +39,7 @@ model User {
   password       String
   location       String?
   avatarUrl      String?
-  role           UserRole      @default(User)
+  role           UserRole?     @default(User)
   emailVerified  Boolean       @default(false)
   phoneVerified  Boolean       @default(false)
   privateProfile Boolean       @default(false)
@@ -72,7 +73,6 @@ model Company {
   email       String
   phone       String
   avatar      String?
-  services    String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   userId      String?
