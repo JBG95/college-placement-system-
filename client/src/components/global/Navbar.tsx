@@ -38,7 +38,7 @@ const Navbar = () => {
         {isAuthenticated ? (
           <div className="flex items-center gap-2">
             {/* User icon and username */}
-            <Link to="/user/dashboard" className="flex items-center gap-2">
+            <Link to="/dashboard" className="flex items-center gap-2">
               <User className="h-6 w-6 text-slate-900" />
               <span className="text-slate-900 font-semibold">
                 {user?.username || "User"}

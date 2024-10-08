@@ -13,10 +13,14 @@ export class JobCollection {
         salaryRange,
         type,
         work,
+        listing,
         location,
-        applicationDeadline,
+        deadline,
         userId,
+        companyId,
       } = req.body;
+
+      console.log(req.body);
 
       const newJob = await prisma.job.create({
         data: {
@@ -26,9 +30,11 @@ export class JobCollection {
           salaryRange,
           type,
           work,
+          listing,
           location,
-          applicationDeadline,
+          deadline,
           userId,
+          companyId,
         },
       });
 
@@ -79,6 +85,22 @@ export class JobCollection {
     }
   }
 
+  async getJobByUserId(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const job = await prisma.job.findMany({
+        where: { userId: id },
+      });
+
+      res.status(httpStatus.OK).json(job);
+    } catch (error: any) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        error: "An error occurred while fetching the job",
+        message: error.message,
+      });
+    }
+  }
   // 4. Update a Job
   async updateJob(req: Request, res: Response) {
     try {

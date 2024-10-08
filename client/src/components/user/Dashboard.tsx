@@ -1,56 +1,91 @@
-import { useState } from "react";
-import Jobscomponent from "../jobs/Jobscomponent";
-import Skillscomponent from "../skills/Skillscomponent";
-import Applicationscomponent from "../applications/Applicationscomponent";
-import CompaniesComponent from "../companies/CompaniesComponent";
+import {
+  Briefcase,
+  Building,
+  ClipboardList,
+  Star,
+  User,
+  FileText,
+  DollarSign,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const [activeSection, setActiveSection] = useState<string>("jobs");
+  const jobCount = 12;
+  const companyCount = 8;
+  const applicationCount = 5;
+  const skillsCount = 10;
+  const profileCount = 1;
+  const freelanceCount = 4;
+  const projectCount = 3;
+  const offerCount = 6;
 
   return (
-    <div className="flex flex-col gap-4 px-8 py-6">
-      {/* Buttons for selecting sections */}
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={() => setActiveSection("jobs")}
-          className={`px-4 py-2 ${
-            activeSection === "jobs" ? "bg-slate-800" : "bg-gray-500"
-          } text-white rounded-md`}
+    <div className="flex flex-col gap-6 px-8 py-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Link
+          to="/user/companies"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
         >
-          Jobs
-        </button>
-        <button
-          onClick={() => setActiveSection("companies")}
-          className={`px-4 py-2 ${
-            activeSection === "companies" ? "bg-slate-800" : "bg-gray-500"
-          } text-white rounded-md`}
+          <Building size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Companies</h3>
+          <p className="text-3xl font-bold">{companyCount}</p>
+        </Link>
+        <Link
+          to="/user/jobs"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
         >
-          Companies
-        </button>
-        <button
-          onClick={() => setActiveSection("applications")}
-          className={`px-4 py-2 ${
-            activeSection === "applications" ? "bg-slate-800" : "bg-gray-500"
-          } text-white rounded-md`}
+          <Briefcase size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Jobs</h3>
+          <p className="text-3xl font-bold">{jobCount}</p>
+        </Link>
+        <Link
+          to="/applications"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
         >
-          Applications
-        </button>
-        <button
-          onClick={() => setActiveSection("skills")}
-          className={`px-4 py-2 ${
-            activeSection === "skills" ? "bg-slate-800" : "bg-gray-500"
-          } text-white rounded-md`}
+          <ClipboardList size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Applications</h3>
+          <p className="text-3xl font-bold">{applicationCount}</p>
+        </Link>
+        <Link
+          to="/skills"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
         >
-          Skills
-        </button>
-      </div>
-
-      {/* Render the selected section */}
-      <div>
-        {activeSection === "jobs" && <Jobscomponent />}
-        {activeSection === "companies" && <CompaniesComponent />}
-        {activeSection === "applications" && <Applicationscomponent />}
-        {activeSection === "skills" && <Skillscomponent />}
+          <Star size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Skills</h3>
+          <p className="text-3xl font-bold">{skillsCount}</p>
+        </Link>
+        <Link
+          to="/profile"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
+        >
+          <User size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Profile</h3>
+          <p className="text-3xl font-bold">{profileCount}</p>
+        </Link>
+        <Link
+          to="/freelance"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
+        >
+          <FileText size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Freelance</h3>
+          <p className="text-3xl font-bold">{freelanceCount}</p>
+        </Link>
+        <Link
+          to="/projects"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
+        >
+          <Briefcase size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Projects</h3>
+          <p className="text-3xl font-bold">{projectCount}</p>
+        </Link>
+        <Link
+          to="/offers"
+          className="p-4 flex flex-col items-center bg-white rounded-lg shadow-md cursor-pointer border-2 border-slate-800 hover:bg-slate-100 transition"
+        >
+          <DollarSign size={32} className="mb-4 text-slate-800" />
+          <h3 className="text-lg font-semibold">Offers</h3>
+          <p className="text-3xl font-bold">{offerCount}</p>
+        </Link>
       </div>
     </div>
   );

@@ -6,11 +6,13 @@ import { createJobSchema, updateJobSchema } from "./job.dto";
 const jobRouter = Router();
 const jobController = new JobCollection();
 
-jobRouter.post("/", validate(createJobSchema), jobController.createJob);
+jobRouter.post("/create", validate(createJobSchema), jobController.createJob);
 
 jobRouter.get("/", jobController.getAllJobs);
 
 jobRouter.get("/:id", jobController.getJobById);
+
+jobRouter.get("/user/:id/jobs", jobController.getJobByUserId);
 
 jobRouter.put("/:id", validate(updateJobSchema), jobController.updateJob);
 

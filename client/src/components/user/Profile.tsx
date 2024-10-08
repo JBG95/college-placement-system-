@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userDetailsAtom } from "../../recoil/atoms";
-import { Edit, User } from "lucide-react";
+import { User } from "lucide-react";
 import { capitalize } from "../../utils/functions";
 
 const Profile = () => {
@@ -35,7 +35,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center rounded bg-slate-200 min-h-screen">
+    <div className="w-full flex flex-col items-center rounded min-h-screen">
       <div className="w-full max-w-lg flex flex-col justify-center items-center bg-white shadow shadow-slate-400 rounded-xl p-4 mt-8">
         <h1 className="text-2xl font-bold mb-2 text-slate-800">Profile</h1>
         <div className="w-full flex flex-col">
@@ -69,7 +69,7 @@ const Profile = () => {
           {/* Edit Button */}
           <button
             onClick={handleEditClick}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+            className="mt-4 bg-slate-800 text-white px-4 py-2 rounded"
           >
             Edit Profile
           </button>

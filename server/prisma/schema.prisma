@@ -23,11 +23,23 @@ enum JobType {
   Internship
   Parttime
   Permanent
+  Fulltime
 }
 
 enum WorkType {
   Remote
   Onsite
+}
+
+enum ListingType {
+  Company
+  Personal
+}
+
+enum Status {
+  Settled
+  Active
+  Closed
 }
 
 model User {
@@ -76,24 +88,30 @@ model Company {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   userId      String?
+  jobs        Job[]
   User        User?    @relation(fields: [userId], references: [id])
 }
 
 model Job {
-  id                  String        @id @default(uuid())
-  title               String
-  description         String
-  requirements        String[]
-  salaryRange         String?
-  type                JobType
-  work                WorkType
-  location            String
-  applicationDeadline DateTime
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  userId              String?
-  user                User?         @relation(fields: [userId], references: [id])
-  Application         Application[]
+  id           String        @id @default(uuid())
+  title        String
+  description  String
+  requirements String[]
+  salaryRange  String?
+  type         JobType
+  work         WorkType
+  listing      ListingType?
+  location     String
+  avatar       String?
+  status       Status        @default(Active)
+  deadline     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       String?
+  user         User?         @relation(fields: [userId], references: [id])
+  Application  Application[]
+  Company      Company?      @relation(fields: [companyId], references: [id])
+  companyId    String?
 }
 
 model Application {

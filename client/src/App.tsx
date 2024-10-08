@@ -10,6 +10,9 @@ import Applications from "./components/user/Applications";
 import Jobs from "./components/user/Jobs";
 import Avatar from "./components/auth/Avatar";
 import Role from "./components/auth/Role";
+import CreateJobForm from "./components/jobs/Jobscomponent";
+import Companies from "./components/companies/Companies";
+import Create from "./components/companies/Create";
 
 function App() {
   return (
@@ -44,10 +47,35 @@ function App() {
         }
       />
       <Route
+        path="/user/jobs/create"
+        element={
+          <RootLayout>
+            <CreateJobForm />
+          </RootLayout>
+        }
+      />
+      <Route
         path="/user/applications"
         element={
           <RootLayout>
             <Applications />
+          </RootLayout>
+        }
+      />
+
+      <Route
+        path="/user/companies"
+        element={
+          <RootLayout>
+            <Companies />
+          </RootLayout>
+        }
+      />
+      <Route
+        path="/user/companies/create"
+        element={
+          <RootLayout>
+            <Create />
           </RootLayout>
         }
       />

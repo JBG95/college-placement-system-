@@ -15,6 +15,9 @@ export const createCompanySchema = z.object({
     .string()
     .min(10, { message: "Phone must be at least 10 characters" }),
   userId: z.string(),
+  avatar: z
+    .string()
+    .min(2, { message: "Company avatar must be at least 2 characters" }),
 });
 
 export const updateCompanySchema = z.object({

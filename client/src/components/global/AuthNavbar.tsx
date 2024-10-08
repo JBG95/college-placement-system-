@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="py-4 px-8 bg-white shadow-md flex justify-between items-center w-full">
+    <nav className="py-4 px-8 bg-white shadow-md flex justify-between items-center w-full sticky top-0">
       <Link className="font-bold text-3xl text-slate-900" to="/">
         CPS<span className="font-bold text-5xl text-red-600">.</span>
       </Link>

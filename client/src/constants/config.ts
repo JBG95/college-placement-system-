@@ -6,4 +6,4 @@ export const UPDATEAVATAR = `auth/update/avatar/`;
 export const UPDATEROLE = `/auth/update/role/`;
 
 export const CREATECOMPANY = "/company/create";
-export const GETUSERCOMPANIES = `/company/user`;
+export const GETUSERCOMPANIES = `${ENDPOINT}/company/user`;

@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-export const jobTypeEnum = z.enum(["Internship", "Parttime", "Permanent"]);
+export const jobTypeEnum = z.enum([
+  "Internship",
+  "Parttime",
+  "Permanent",
+  "Fulltime",
+]);
 export const workTypeEnum = z.enum(["Remote", "Onsite"]);
 
 export const createJobSchema = z.object({
@@ -19,7 +24,7 @@ export const createJobSchema = z.object({
   location: z
     .string()
     .min(3, { message: "Location must be at least 3 characters" }),
-  applicationDeadline: z.date({ message: "Please provide a valid date" }),
+  deadline: z.string({ message: "Please provide a valid date" }),
   userId: z.string().optional(),
 });
 
@@ -32,7 +37,7 @@ export const jobResponseSchema = z.object({
   type: jobTypeEnum,
   work: workTypeEnum,
   location: z.string(),
-  applicationDeadline: z.date(),
+  deadline: z.date(),
   createdAt: z.date(),
   updatedAt: z.date(),
   userId: z.string().nullable(),
@@ -58,8 +63,6 @@ export const updateJobSchema = z.object({
     .string()
     .min(3, { message: "Location must be at least 3 characters" })
     .optional(),
-  applicationDeadline: z
-    .date({ message: "Please provide a valid date" })
-    .optional(),
+  deadline: z.date({ message: "Please provide a valid date" }).optional(),
   userId: z.string().optional(),
 });

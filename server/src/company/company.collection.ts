@@ -6,7 +6,8 @@ export class CompanyCollection {
   // 1. Create a new Company
   async createCompany(req: Request, res: Response): Promise<void> {
     try {
-      const { name, address, description, email, phone, userId } = req.body;
+      const { name, address, description, email, phone, userId, avatar } =
+        req.body;
 
       console.log(req.body);
 
@@ -19,6 +20,7 @@ export class CompanyCollection {
           email,
           phone,
           userId,
+          avatar,
         },
       });
 

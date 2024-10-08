@@ -5,7 +5,8 @@ import morgan from "morgan";
 import compression from "compression";
 import authRouter from "./auth/auth.router";
 import companyRouter from "./company/company.router";
-import path from "path";
+import jobRouter from "./job/job.router";
+import uploadImageRouter from "./image";
 
 const app: Application = express();
 const port = process.env.PORT || 1738;
@@ -27,8 +28,9 @@ app.use(compression());
 //routes
 app.use("/api/auth", limiter, authRouter);
 app.use("/api/company", limiter, companyRouter);
+app.use("/api/jobs", limiter, jobRouter);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", uploadImageRouter);
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("CPS my guy");
