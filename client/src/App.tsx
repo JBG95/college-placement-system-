@@ -18,6 +18,8 @@ import CompanyId from "./pages/CompanyId";
 import JobsPage from "./pages/Job";
 import JobId from "./pages/JobId";
 import JobApplicationForm from "./pages/Application";
+import MyDashboard from "./components/user/MyDashboard";
+import UserApplications from "./components/applications/UserApplications";
 
 function App() {
   return (
@@ -133,6 +135,33 @@ function App() {
         element={
           <RootLayout>
             <Profile />
+          </RootLayout>
+        }
+      />
+
+      <Route
+        path="/seeker/profile"
+        element={
+          <RootLayout>
+            <Profile />
+          </RootLayout>
+        }
+      />
+
+      <Route
+        path="/seeker/dashboard"
+        element={
+          <RootLayout>
+            <MyDashboard />
+          </RootLayout>
+        }
+      />
+
+      <Route
+        path="/seeker/applications"
+        element={
+          <RootLayout>
+            <UserApplications />
           </RootLayout>
         }
       />

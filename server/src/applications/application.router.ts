@@ -27,6 +27,11 @@ applicationRouter.get(
   applicationController.getApplicationByUserId
 );
 
+applicationRouter.get(
+  "/applications/user/:userId",
+  applicationController.getAllApplicationByUserId
+);
+
 // Route to update an application
 applicationRouter.put(
   "/:id",

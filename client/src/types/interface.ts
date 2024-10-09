@@ -26,6 +26,30 @@ export enum Status {
   Settled = "Settled",
 }
 
+// types.ts
+
+export enum ApplicationStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Declined = "Declined",
+}
+
+export interface Application {
+  Job: any;
+  id: string;
+  fullname: string;
+  email: string;
+  phone: string;
+  status: ApplicationStatus;
+  coverLetter?: string;
+  resumeUrl: string;
+  experience: string;
+  education: string;
+  appliedAt: Date;
+  userId: string;
+  jobId: string;
+}
+
 export interface User {
   id: string;
   username: string;
@@ -71,5 +95,6 @@ export interface Company {
   updatedAt: string;
   userId?: string;
   jobs: Job[];
+  application: Application[];
   User?: User;
 }

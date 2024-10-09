@@ -1,10 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Building, Briefcase, ClipboardList, User } from "lucide-react";
+import { useRecoilValue } from "recoil";
+import { userDetailsAtom } from "../../recoil/atoms";
 
 const Sidebar = () => {
   const location = useLocation();
 
-  const links = [
+  const userDetails = useRecoilValue(userDetailsAtom);
+  const userRole = userDetails?.role;
+
+  const creatorLinks = [
     { name: "Dashboard", path: "/dashboard", icon: <Home /> },
     { name: "Company", path: "/user/companies", icon: <Building /> },
     { name: "Jobs", path: "/user/jobs", icon: <Briefcase /> },
@@ -15,6 +20,19 @@ const Sidebar = () => {
     },
     { name: "Profile", path: "/user/profile", icon: <User /> },
   ];
+
+  // Links for Seekers
+  const seekerLinks = [
+    { name: "Dashboard", path: "/seeker/dashboard", icon: <Home /> },
+    {
+      name: "Applications",
+      path: "/seeker/applications",
+      icon: <ClipboardList />,
+    },
+    { name: "My Profile", path: "/seeker/profile", icon: <User /> },
+  ];
+
+  const links = userRole === "Creator" ? creatorLinks : seekerLinks;
 
   return (
     <div className="text-slate-900 md:flex hidden w-40 p-6 shadow-md border-r min-h-screen">

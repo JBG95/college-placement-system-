@@ -53,6 +53,7 @@ const Profile = () => {
             { label: "Username", value: capitalize(user?.username) },
             { label: "Fullname", value: capitalize(user?.fullname) },
             { label: "Email", value: capitalize(user?.email) },
+            { label: "Role", value: capitalize(user?.role) },
             { label: "Phone", value: user?.phone },
           ].map((field, index) => (
             <div

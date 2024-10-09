@@ -87,6 +87,14 @@ export class ApplicationCollection {
 
       const application = await prisma.application.findMany({
         where: { userId: id },
+        include: {
+          Job: {
+            include: {
+              Company: true,
+            },
+          },
+          User: true,
+        },
       });
 
       if (!application) {
@@ -100,6 +108,54 @@ export class ApplicationCollection {
     } catch (error: any) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         error: "An error occurred while fetching the application",
+        message: error.message,
+      });
+    }
+  }
+
+  async getAllApplicationByUserId(req: Request, res: Response) {
+    try {
+      const { userId } = req.params;
+
+      // Step 1: Find jobs related to the user
+      const jobs = await prisma.job.findMany({
+        where: { userId }, // Assuming there's a userId field in the Job model
+      });
+
+      if (jobs.length === 0) {
+        res.status(httpStatus.NOT_FOUND).json({
+          message: "No jobs found for this user",
+        });
+        return;
+      }
+
+      // Extract job IDs
+      const jobIds = jobs.map((job) => job.id);
+
+      // Step 2: Find applications related to the job IDs
+      const applications = await prisma.application.findMany({
+        where: { jobId: { in: jobIds } },
+        include: {
+          Job: {
+            include: {
+              Company: true, // Adjust this based on your data model
+            },
+          },
+          User: true,
+        },
+      });
+
+      if (applications.length === 0) {
+        res.status(httpStatus.NOT_FOUND).json({
+          message: "No applications found for the jobs of this user",
+        });
+        return;
+      }
+
+      res.status(httpStatus.OK).json(applications);
+    } catch (error: any) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        error: "An error occurred while fetching applications",
         message: error.message,
       });
     }
