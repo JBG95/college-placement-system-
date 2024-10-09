@@ -5,30 +5,32 @@ import { prisma } from "../config/prisma";
 export class ApplicationCollection {
   async createApplication(req: Request, res: Response): Promise<void> {
     try {
-      const { fullname, email, phone, jobId, userId } = req.body;
+      const {
+        fullname,
+        email,
+        phone,
+        jobId,
+        userId,
+        resume,
+        coverLetter,
+        experience,
+        education,
+      } = req.body;
 
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-      const resumeUrl = files?.resume?.[0]?.path || null;
-      const coverLetter = files?.coverLetter?.[0]?.path || null;
-
-      if (!resumeUrl) {
-        res
-          .status(httpStatus.BAD_REQUEST)
-          .json({ message: "Resume is required" });
-        return;
-      }
+      console.log(req.body);
 
       const newApplication = await prisma.application.create({
         data: {
           fullname,
           email,
           phone,
-          resumeUrl,
+          resumeUrl: resume,
           coverLetter: coverLetter || null,
           jobId,
           userId,
           status: "Pending",
+          experience,
+          education,
         },
       });
 

@@ -13,6 +13,11 @@ import Role from "./components/auth/Role";
 import CreateJobForm from "./components/jobs/Jobscomponent";
 import Companies from "./components/companies/Companies";
 import Create from "./components/companies/Create";
+import CompaniesList from "./pages/Companies";
+import CompanyId from "./pages/CompanyId";
+import JobsPage from "./pages/Job";
+import JobId from "./pages/JobId";
+import JobApplicationForm from "./pages/Application";
 
 function App() {
   return (
@@ -27,6 +32,50 @@ function App() {
         element={
           <Layout>
             <Home />
+          </Layout>
+        }
+      />
+      <Route
+        path="/companies"
+        element={
+          <Layout>
+            <CompaniesList />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/company/:companyId"
+        element={
+          <Layout>
+            <CompanyId />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/jobs"
+        element={
+          <Layout>
+            <JobsPage />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/job/:jobId"
+        element={
+          <Layout>
+            <JobId />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/apply/:jobId"
+        element={
+          <Layout>
+            <JobApplicationForm />
           </Layout>
         }
       />

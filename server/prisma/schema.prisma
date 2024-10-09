@@ -122,6 +122,8 @@ model Application {
   status      ApplicationStatus @default(Pending)
   coverLetter String?
   resumeUrl   String
+  experience  String
+  education   String
   appliedAt   DateTime          @default(now())
   userId      String
   jobId       String

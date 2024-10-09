@@ -14,9 +14,9 @@ companyRouter.post(
   companyController.createCompany
 );
 
-companyRouter.get("/", companyController.getAllCompanies);
+companyRouter.get("/all", companyController.getAllCompanies);
 
-companyRouter.get("/:id", companyController.getCompanyById);
+companyRouter.get("/one/:id", companyController.getCompanyById);
 
 companyRouter.get("/user/:id", companyController.getAllCompaniesByUserId);
 

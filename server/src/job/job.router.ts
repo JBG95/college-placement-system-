@@ -8,9 +8,9 @@ const jobController = new JobCollection();
 
 jobRouter.post("/create", validate(createJobSchema), jobController.createJob);
 
-jobRouter.get("/", jobController.getAllJobs);
+jobRouter.get("/all", jobController.getAllJobs);
 
-jobRouter.get("/:id", jobController.getJobById);
+jobRouter.get("/one/:id", jobController.getJobById);
 
 jobRouter.get("/user/:id/jobs", jobController.getJobByUserId);
 

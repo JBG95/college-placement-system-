@@ -7,6 +7,7 @@ import authRouter from "./auth/auth.router";
 import companyRouter from "./company/company.router";
 import jobRouter from "./job/job.router";
 import uploadImageRouter from "./image";
+import applicationRouter from "./applications/application.router";
 
 const app: Application = express();
 const port = process.env.PORT || 1738;
@@ -29,6 +30,7 @@ app.use(compression());
 app.use("/api/auth", limiter, authRouter);
 app.use("/api/company", limiter, companyRouter);
 app.use("/api/jobs", limiter, jobRouter);
+app.use("/api/application", limiter, applicationRouter);
 
 app.use("/uploads", uploadImageRouter);
 

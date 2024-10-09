@@ -19,7 +19,7 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback
 ): void => {
-  const filetypes = /jpeg|jpg|webp|gif|svg|bmp|png/;
+  const filetypes = /jpeg|jpg|webp|gif|svg|bmp|png|pdf/;
   const mimetype = filetypes.test(file.mimetype);
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
@@ -68,6 +68,56 @@ const pitchImageUpload = multer({
   }),
   fileFilter: fileFilter,
 }).array("pitchImages", 10);
+
+const uploadDocuments = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "sportsdot",
+    key: (
+      _req: Request,
+      file: Express.Multer.File,
+      cb: (error: any, key?: string) => void
+    ): void => {
+      cb(null, `${Date.now().toString()}${path.extname(file.originalname)}`); // file name
+    },
+  }),
+  fileFilter: fileFilter,
+}).fields([
+  { name: "resume", maxCount: 1 }, // For resume upload
+  { name: "coverLetter", maxCount: 1 }, // For cover letter upload
+]);
+
+uploadImageRouter.post("/upload-documents", (req: Request, res: Response) => {
+  uploadDocuments(req, res, (err: any) => {
+    if (err) {
+      console.error("Upload Error:", err);
+      return res.status(500).json({ error: err.message || err });
+    }
+
+    try {
+      console.log("Files:", req.files);
+      console.log("Body:", req.body);
+
+      const resume = (req.files as any).resume
+        ? (req.files as any).resume[0].location
+        : null;
+      const coverLetter = (req.files as any).coverLetter
+        ? (req.files as any).coverLetter[0].location
+        : null;
+
+      console.log("Uploaded resume:", resume);
+      console.log("Uploaded cover letter:", coverLetter);
+      console.log("Other form data:", req.body);
+
+      res.json({ resume, coverLetter });
+    } catch (error: any) {
+      console.error("Processing Error:", error);
+      return res.status(500).json({
+        error: error.message || error,
+      });
+    }
+  });
+});
 
 uploadImageRouter.post("/upload", (req: Request, res: Response) => {
   upload(req, res, (err: any) => {

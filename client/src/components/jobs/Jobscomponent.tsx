@@ -31,7 +31,7 @@ const CreateJobForm = () => {
     salaryRange: "",
     type: JobType.Internship, // Default to Internship
     work: WorkType.Remote, // Default to Remote
-    listingType: ListingType.Company, // Default to Company
+    listing: ListingType.Company, // Default to Company
     location: "",
     deadline: "",
     selectedCompany: "", // State to hold selected company if applicable
@@ -123,7 +123,7 @@ const CreateJobForm = () => {
         salaryRange: "",
         type: JobType.Internship,
         work: WorkType.Remote,
-        listingType: ListingType.Company,
+        listing: ListingType.Company,
         location: "",
         deadline: "",
         selectedCompany: "",
@@ -226,21 +226,21 @@ const CreateJobForm = () => {
         <label className="block">
           <span className="text-gray-700">Listing Type</span>
           <select
-            name="listingType"
-            value={formData.listingType}
+            name="listing"
+            value={formData.listing}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-md"
           >
-            {Object.values(ListingType).map((listingType) => (
-              <option key={listingType} value={listingType}>
-                {listingType}
+            {Object.values(ListingType).map((listing) => (
+              <option key={listing} value={listing}>
+                {listing}
               </option>
             ))}
           </select>
         </label>
 
         {/* Conditionally render company selection dropdown */}
-        {formData.listingType === ListingType.Company && (
+        {formData.listing === ListingType.Company && (
           <label className="block">
             <span className="text-gray-700">Select Company</span>
             <select

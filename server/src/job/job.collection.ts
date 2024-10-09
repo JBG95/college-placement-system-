@@ -50,7 +50,12 @@ export class JobCollection {
   // 2. Get All Jobs
   async getAllJobs(_req: Request, res: Response) {
     try {
-      const jobs = await prisma.job.findMany();
+      const jobs = await prisma.job.findMany({
+        include: {
+          Company: true,
+          user: true,
+        },
+      });
       res.status(httpStatus.OK).json(jobs);
     } catch (error: any) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -67,6 +72,10 @@ export class JobCollection {
 
       const job = await prisma.job.findUnique({
         where: { id },
+        include: {
+          Company: true,
+          user: true,
+        },
       });
 
       if (!job) {

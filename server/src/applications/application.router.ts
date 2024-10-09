@@ -5,19 +5,14 @@ import {
   createApplicationSchema,
   updateApplicationSchema,
 } from "./application.dto";
-import { upload } from "../uploadsfolder/file";
 
 const applicationRouter = Router();
 const applicationController = new ApplicationCollection();
 
 // Route to create a new application
 applicationRouter.post(
-  "/",
+  "/create",
   validate(createApplicationSchema),
-  upload.fields([
-    { name: "resume", maxCount: 1 },
-    { name: "coverLetter", maxCount: 1 },
-  ]),
   applicationController.createApplication
 );
 
