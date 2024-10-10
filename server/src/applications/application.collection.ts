@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status-codes";
 import { prisma } from "../config/prisma";
+import { sendEmail } from "../utils";
 
 export class ApplicationCollection {
   async createApplication(req: Request, res: Response): Promise<void> {
@@ -33,6 +34,21 @@ export class ApplicationCollection {
           education,
         },
       });
+
+      const job = await prisma.job.findUnique({
+        where: { id: jobId },
+        include: { user: true },
+      });
+
+      if (job && job.user && job.user.email) {
+        const jobCreatorEmail = job.user.email;
+        const jobCreatorName = job.user.fullname;
+
+        const subject = "New Application Submitted for Your Job Posting";
+        const message = `Dear ${jobCreatorName},\n\nA new application has been submitted for your job posting "${job.title}".\n\nApplicant Name: ${fullname}\nApplicant Email: ${email}\n\nBest regards,\nYour Job Platform`;
+
+        await sendEmail(jobCreatorEmail, subject, message);
+      }
 
       res.status(httpStatus.CREATED).json(newApplication);
     } catch (error: any) {
@@ -167,10 +183,36 @@ export class ApplicationCollection {
       const { id } = req.params;
       const updateData = req.body;
 
+      // Update the application in the database
       const updatedApplication = await prisma.application.update({
         where: { id },
         data: updateData,
+        include: { User: true }, // Fetch the related user with email
       });
+
+      // Get user email and application status
+      const userEmail = updatedApplication.User.email;
+      const applicationStatus = updatedApplication.status;
+
+      // Construct the email message based on the application status
+      let subject = "";
+      let message = "";
+
+      if (applicationStatus === "Approved") {
+        subject = "Congratulations! Your Application is Approved";
+        message = `Dear ${updatedApplication.User.fullname},\n\nWe are thrilled to inform you that your application has been approved. Congratulations on this achievement! We look forward to have an interview with you soon`;
+      } else if (applicationStatus === "Declined") {
+        subject = "Update on Your Application";
+        message = `Dear ${updatedApplication.User.fullname},\n\nWe regret to inform you that your application has been declined. We encourage you to stay positive and reapply in the future.`;
+      }
+
+      // Send email if the status is either Approved or Declined
+      if (
+        applicationStatus === "Approved" ||
+        applicationStatus === "Declined"
+      ) {
+        await sendEmail(userEmail, subject, message);
+      }
 
       res.status(httpStatus.OK).json(updatedApplication);
     } catch (error: any) {

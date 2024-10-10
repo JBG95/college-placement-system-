@@ -7,8 +7,8 @@ export async function sendEmail(to: string, subject: string, text: string) {
     port: parseInt(process.env.EMAIL_PORT || "587", 10),
     secure: process.env.EMAIL_SECURE === "true",
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: "codedr21@gmail.com",
+      pass: "gkpy tuuo rpvw cvkj",
     },
   });
 

@@ -3,16 +3,33 @@ import { useRecoilValue } from "recoil";
 import axios from "axios";
 import { userDetailsAtom } from "../../recoil/atoms";
 import { Application } from "../../types/interface";
+import { Loader } from "lucide-react";
 
 const fetchApplications = async (userId: string) => {
   try {
     const response = await axios.get(
       `http://localhost:1738/api/application/applications/user/${userId}`
     );
-    return response.data; // Adjust based on your API response structure
+    return response.data;
   } catch (error) {
     console.error("Error fetching applications:", error);
     return [];
+  }
+};
+
+const updateApplicationStatus = async (
+  applicationId: string,
+  status: string
+) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:1738/api/application/update/${applicationId}`,
+      { status }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating application ${applicationId}:`, error);
+    throw error;
   }
 };
 
@@ -22,6 +39,7 @@ const ApplicationList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("All");
+  const [isUpdating, setIsUpdating] = useState<string | null>(null);
 
   useEffect(() => {
     const loadApplications = async () => {
@@ -49,14 +67,38 @@ const ApplicationList = () => {
   });
 
   // Handle approve and decline actions
-  const handleApprove = (applicationId: string) => {
-    // Implement your logic for approving the application here
-    console.log("Approved application ID:", applicationId);
+  const handleApprove = async (applicationId: string) => {
+    try {
+      setIsUpdating(applicationId); // Show loader for the specific application
+      await updateApplicationStatus(applicationId, "Approved");
+      setApplications((prevApps) =>
+        prevApps.map((app) =>
+          app.id === applicationId ? { ...app, status: "Approved" } : app
+        )
+      );
+      console.log("Application approved:", applicationId);
+    } catch (error) {
+      console.error("Failed to approve application:", applicationId);
+    } finally {
+      setIsUpdating(null);
+    }
   };
 
-  const handleDecline = (applicationId: string) => {
-    // Implement your logic for declining the application here
-    console.log("Declined application ID:", applicationId);
+  const handleDecline = async (applicationId: string) => {
+    try {
+      setIsUpdating(applicationId); // Show loader for the specific application
+      await updateApplicationStatus(applicationId, "Declined");
+      setApplications((prevApps) =>
+        prevApps.map((app) =>
+          app.id === applicationId ? { ...app, status: "Declined" } : app
+        )
+      );
+      console.log("Application declined:", applicationId);
+    } catch (error) {
+      console.error("Failed to decline application:", applicationId);
+    } finally {
+      setIsUpdating(null);
+    }
   };
 
   return (
@@ -79,7 +121,9 @@ const ApplicationList = () => {
       </div>
 
       {isLoading ? (
-        <div className="text-center">Loading...</div>
+        <div className="text-center">
+          <Loader />
+        </div>
       ) : isError ? (
         <div className="text-center text-red-500">
           Error fetching applications
@@ -153,18 +197,24 @@ const ApplicationList = () => {
                 <td className="border border-gray-300 px-2 py-2">
                   {app.status === "Pending" ? (
                     <div>
-                      <button
-                        onClick={() => handleApprove(app.id)}
-                        className="bg-green-500 w-full text-white px-2 py-1 rounded mr-1"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => handleDecline(app.id)}
-                        className="bg-red-500 w-full mt-2 text-white px-2 py-1 rounded"
-                      >
-                        Decline
-                      </button>
+                      {isUpdating === app.id ? (
+                        <p>Updating....</p>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => handleApprove(app.id)}
+                            className="bg-green-500 w-full text-white px-2 py-1 rounded mr-1"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleDecline(app.id)}
+                            className="bg-red-500 w-full mt-2 text-white px-2 py-1 rounded"
+                          >
+                            Decline
+                          </button>
+                        </>
+                      )}
                     </div>
                   ) : (
                     <span>Settled</span>

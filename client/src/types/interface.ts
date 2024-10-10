@@ -28,11 +28,13 @@ export enum Status {
 
 // types.ts
 
-export enum ApplicationStatus {
-  Pending = "Pending",
-  Approved = "Approved",
-  Declined = "Declined",
-}
+// export enum ApplicationStatus {
+//   Pending = "Pending",
+//   Approved = "Approved",
+//   Declined = "Declined",
+// }
+
+export type ApplicationStatus = "Pending" | "Approved" | "Declined";
 
 export interface Application {
   Job: any;

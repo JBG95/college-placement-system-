@@ -34,7 +34,7 @@ applicationRouter.get(
 
 // Route to update an application
 applicationRouter.put(
-  "/:id",
+  "/update/:id",
   validate(updateApplicationSchema),
   applicationController.updateApplication
 );
